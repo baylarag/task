@@ -1,0 +1,101 @@
+internal class Program
+    {
+        static void Main(string[] args)
+        {
+           WriteTextFile("Stdent",())
+        }
+     
+        public static void WriteTextFile(string Namefile, string Neyazmagistiyisen)
+        {
+            string textFiledirectory = GetFileDirectory(Namefile);
+
+            StreamWriter streamWriter = new StreamWriter(textFiledirectory,true);
+            streamWriter.WriteLine(Neyazmagistiyisen);
+            streamWriter.Dispose();
+        }
+
+        public static string GetLinesFromConsole(string output)
+        {
+        TryAgain:
+            Console.WriteLine($"Please enter your output{output}:");
+            string input = Console.ReadLine().Trim();
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine($"{output}is not empty");
+                goto TryAgain;
+            }
+            return input;
+        }
+
+        public static string GetFileDirectory(string Filname)
+        {
+            string root = Class1.Root;
+            string ModelFolderPath = Path.Combine(root, "Contens");
+            if (!Directory.Exists(ModelFolderPath))
+            {
+                Directory.CreateDirectory(ModelFolderPath);
+            }
+
+
+            string textFiledirectory = Path.Combine(ModelFolderPath, $"{Filname}.txd");
+            if (!File.Exists(textFiledirectory))
+            {
+                File.Create(textFiledirectory);
+            }
+            return textFiledirectory;
+        }
+        public static string ReadFromFile(string Naamefile)
+        {
+            string Namefile=GetFileDirectory(Naamefile);
+            StreamReader streamreader=new StreamReader(Naamefile);
+            string line=streamreader.ReadLine();
+            return line;
+        }
+        public static Student CreateStudent( )
+        {
+            string name = GetLinesFromConsole("name");
+            string surname = GetLinesFromConsole("surname");
+            Student student = new Student("name ", "surname");
+            string jsonserializer = JsonSerializer.Serialize(student);
+            return student;
+
+        } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ internal class Student
+    {
+        private static  int _idCounter;
+        public int Id { get; set; } 
+        public string Name { get; set; }    
+        public string Surname { get; set; }
+        static  Student()
+        {
+                _idCounter=0;
+        }
+        public Student()
+        {
+            Id = ++_idCounter;
+        }
+        public Student(string name,string surname):this()
+        {
+            Name = Name;
+            Surname = Surname;
+        }
+
+
+    }
+}
+
+
